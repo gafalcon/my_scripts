@@ -1,0 +1,10 @@
+{
+	"libs": ["jquery", "browser"],
+	"plugins": {
+		"angular": {},
+		"node": {},
+		"node-express": {},
+		"lint": {},
+		"node-extension": {}
+	}
+}
