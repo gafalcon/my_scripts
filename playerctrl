@@ -1,0 +1,23 @@
+#!/bin/bash
+
+if [ $# -eq 0 ]
+then
+    echo "No arguments supplied"
+else
+    case $1 in
+	"toggle-play")
+	    playerctl play-pause || mpc toggle
+	    echo "play";;
+	"stop")
+	    playerctl stop || mpc stop
+	    echo "stop";;
+	"next")
+	    playerctl next || mpc next
+	    echo "next";;
+	"prev")
+	    playerctl previous || mpc prev
+	    echo "prev";;
+	"random")
+	    mpc random;;
+    esac
+fi

@@ -1,0 +1,12 @@
+#!/bin/sh
+count=`ps aux | grep -c urxvt`
+if [ $count -eq 1 ]; then
+    i3-msg 'exec urxvt -e tmux'
+else
+    is_terminal_active=`xprop -id $(xprop -root _NET_ACTIVE_WINDOW | cut -d ' ' -f 5) WM_CLASS | grep -c URxvt`
+    if [ $is_terminal_active -eq 1 ]; then
+	i3-msg 'workspace back_and_forth'
+    else
+	i3-msg '[class="URxvt"] focus'
+    fi
+fi

@@ -1,0 +1,2 @@
+sudo mount -t ext4 /dev/sda11 /mnt/backup
+sudo rsync -aAX --info=progress2 --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found","/home/gabo/.cache/*","/home/gabo/.config/stremio/*"} / /mnt/backup/backup_manjaro
