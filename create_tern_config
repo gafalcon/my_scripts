@@ -1,0 +1,104 @@
+#!/usr/bin/node
+
+const readline = require('readline');
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+var available_libs = ["jquery", "react", "underscore", "chai"];
+var available_plugins = ["angular", "commonjs", "modules", "node_resolve", "requirejs", "webpack"];
+
+var tern_config = {
+    "libs":["browser", "ecmascript"],
+    "loadEagerly": ["./src/*.js"],
+    "plugins": {
+        "es_modules": {},
+        "doc_comment": {"fullDocs": true, "strong": true},
+        "node": {}
+    }
+};
+
+
+var setlibs = function(){
+    console.log("\nAvailable libs: ", available_libs);
+
+    rl.question('Add lib(s)? ', (answer) => {
+
+        if (answer === ""){
+            setPlugins();
+            return;
+        }
+        var libs = answer.split(" ");
+        libs.forEach((lib, i) => {
+            if (available_libs.indexOf(lib) != -1){
+                tern_config.libs.push(lib);
+
+                available_libs = available_libs.filter((av_lib, i) => lib !== av_lib);
+
+            }else{
+                console.log(lib + " not in available libs");
+            }
+
+        });
+
+        console.log("Current config");
+        console.log(JSON.stringify(tern_config, null, 3));
+        if (available_libs.length != 0){
+            setlibs();
+        }else{
+            setPlugins();
+        }
+    });
+};
+
+
+var setPlugins = function(){
+    console.log("\nAvailable plugins: ", available_plugins);
+
+    rl.question('Add plugin(s)? ', (answer) => {
+
+        if (answer === ""){
+            write_config_file();
+            rl.close();
+            return;
+        }
+        var plugins = answer.split(" ");
+        plugins.forEach((plugin, i) => {
+            if (available_plugins.indexOf(plugin) != -1){
+                tern_config.plugins[plugin] = {};
+
+                available_plugins = available_plugins.filter((av_pl, i) => plugin !== av_pl);
+
+            }else{
+                console.log(plugin + " not in available plugins");
+            }
+
+        });
+
+        console.log("Current config");
+        console.log(JSON.stringify(tern_config, null, 3));
+        if (available_plugins.length != 0)
+            setPlugins();
+        else{
+            rl.close();
+            write_config_file();
+        }
+    });
+};
+
+var write_config_file = function(){
+    var fs = require('fs');
+    fs.writeFile('.tern-project', JSON.stringify(tern_config, null, 4), (err) => {
+        if (err) throw err;
+        console.log('The file has been saved!');}
+    );
+};
+
+
+
+
+console.log("Creating tern-project");
+console.log("Default config: ");
+console.log(tern_config);
+setlibs();
