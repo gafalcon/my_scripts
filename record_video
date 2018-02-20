@@ -1,0 +1,1 @@
+ffmpeg -f alsa -i hw:1 -f video4linux2 -s 640x480 -i /dev/video0 /mnt/Shared/Documents/out.mpg
