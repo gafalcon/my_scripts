@@ -1,0 +1,9 @@
+#!/bin/sh
+
+img_file=$(zenity --title "Select name and location of new image" --file-selection --save --confirm-overwrite)
+
+if [[ -n $img_file ]]; then
+    scrot -s $img_file && sleep 1 && notify-send "screenshot has been saved in $img_file"
+else
+    echo "Nothing done"
+fi

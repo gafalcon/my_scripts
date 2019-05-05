@@ -1,0 +1,15 @@
+#!/bin/sh
+
+line=$(cat "$HOME/mydotfiles/shortcuts" | rofi -dmenu)
+
+echo $line
+
+read -ra ADDR <<< "$line" #line is read into an array as tokens separated by IFS(space)
+binding="${ADDR[-1]}"
+
+if [[ "${ADDR[0]}" == "(type)" ]]; then
+    echo "Type"
+    xdotool type $binding
+else
+    xdotool key $binding
+fi

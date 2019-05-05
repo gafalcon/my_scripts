@@ -2,7 +2,7 @@
 # count=`ps aux | grep -c urxvt`
 count=`pgrep -c urxvt`
 
-if [ $count -eq 0 ]; then
+if [ $count -eq 0 ]; then #terminal not running
     i3-msg 'exec urxvt -e tmux'
 else
     is_terminal_active=`xprop -id $(xprop -root _NET_ACTIVE_WINDOW | cut -d ' ' -f 5) WM_CLASS | grep -c URxvt`
