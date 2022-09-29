@@ -1,14 +1,14 @@
 #!/bin/sh
 # count=`ps aux | grep -c urxvt`
-count=`pgrep -c urxvt`
+count=`pgrep -c alacritty`
 
 if [ $count -eq 0 ]; then #terminal not running
-    i3-msg 'exec urxvt -e tmux'
+    i3-msg 'exec alacritty -e tmux'
 else
-    is_terminal_active=`xprop -id $(xprop -root _NET_ACTIVE_WINDOW | cut -d ' ' -f 5) WM_CLASS | grep -c URxvt`
+    is_terminal_active=`xprop -id $(xprop -root _NET_ACTIVE_WINDOW | cut -d ' ' -f 5) WM_CLASS | grep -c Alacritty`
     if [ $is_terminal_active -eq 1 ]; then
 	i3-msg 'workspace back_and_forth'
     else
-	i3-msg '[class="URxvt"] focus'
+	i3-msg '[class="Alacritty"] focus'
     fi
 fi
